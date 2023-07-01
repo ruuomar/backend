@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'jobapp',
+    'corsheaders',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'job.urls'
@@ -78,7 +81,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         # 'NAME': BASE_DIR / 'db.sqlite3',
-        'NAME':'jobapplication',
+        'NAME':'mydb',
         'PASSWORD':'1234',
         'HOST':'localhost',
         'USER':'postgres',
@@ -86,7 +89,13 @@ DATABASES = {
 
     }
 }
+CORS_ORIGIN_ALLOW_ALL = True
 
+# kuadd frontend
+CORS_ORIGIN_WHITELIST =[
+    'http://localhost:3000',
+    # '*',allowedHeaders '*'
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
