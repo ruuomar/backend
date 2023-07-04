@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="style.css"rel="stylesheet"type="text/css">
+</head>
+<body>
+    <h1 class="header">Update your information</h1>
+    <div class="para">
+        <button onclick="location.href='home.html'">Home</button><br>
+        <button onclick="location.href='Applicantlist.html'">Data</button><br>
+        <button onclick="location.href='apply.html'">Application</button><br>
+        <button onclick="location.href='job.html'">Add job</button><br>
+    </div>
+    <div class="display">
+  <form> 
+        <fieldset>
+            <legend>information:</legend>
+            Name: <input type="text" name="name" id="name"><br>
+            Email: <input type="text" name="email" id="email"><br>
+           </fieldset>
+           
+           <fieldset>
+            <legend>Other Skill:</legend>
+            skill: <input type="text"name="skill"><br>
+           </fieldset>
+
+           <fieldset>
+            <legend>Document:</legend>
+            Submit Document: <input type="file" id="document" name="document" accept=".pdf,.doc,.docx" required><br>
+           </fieldset>
+       
+      <select id="JId" name="JId">
+          <option value="" disabled selected>select Job</option>
+      </select>
+      <select id="Aid" name="Aid">
+        <option value="" disabled selected>selecte Applicant</option>
+      </select>
+      <fieldset>
+            <legend>Add referre:</legend>
+            enter: <input type="text"name="wadhamin"><br>
+           </fieldset>
+           <button type="submit">submit form</button>
+     </form>
+ <script>
+   fetch('http://localhost:8000/api/v1/getJob')
+    .then(response =>response.json())
+    .then(data =>{
+      const job = document.getElementById('JId');
+      data.forEach(item => {
+        const option = document.createElement('option');
+        option.value=item.JId;
+        option.textContent=item.JName;
+        job.appendChild(option)
+      });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
+    fetch('http://localhost:8000/api/v1/getApplicant')
+    .then(response =>response.json())
+    .then(data =>{
+      const job = document.getElementById('Aid');
+      data.forEach(item => {
+        const option = document.createElement('option');
+        option.value=item.Aid;
+        option.textContent=item.AFName;
+        job.appendChild(option)
+      });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
+
+
+    
+    document.getElementById("certificateForm").addEventListener("submit", function(event) {
+  event.preventDefault(); // Kuzuia kutuma fomu kwa njia ya jadi
+
+  // Kusanya data kutoka kwenye fomu
+  var fullName = document.getElementsByName("fullName")[0].value;
+  var email = document.getElementsByName("email")[0].value;
+  var document= document.getElementsByName("document")[0].value;
+  var wadhamin= document.getElementsByName("wadhamin")[0].value;
+
+  // Tuma data kwenye server ya Django
+  fetch("/certificate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      fullName: fullName,
+      email:email,
+      document: document,
+      wadhamin:wadhamin
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    // Kuchukua hatua baada ya kupokea majibu kutoka kwa server
+    console.log(data);
+    // Unaweza kuongeza hatua zaidi kama vile kuonyesha ujumbe wa mafanikio au kufanya kitu kingine
+  })
+  .catch(error => {
+    console.error(error);
+    // Unaweza kushughulikia makosa ikiwa kutakuwa na hitilafu kwenye mchakato wa kutuma data
+  });
+});
+
+  </script>
+   
+</body>
+</html>

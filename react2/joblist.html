@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>select job</title>
+    <link href="style.css"rel="stylesheet"type="text/css">
+</head>
+<body>
+  <h1 class="header">Data of Applicant</h1>
+    <div class="para">
+      Menu
+        <button onclick="location.href='home.html'">Home</button><br>
+        <button onclick="location.href='Applicantlist.html'">Data</button><br>
+        <button onclick="location.href='apply.html'">Application</button><br>
+        <button onclick="location.href='job.html'">Add job</button><br>
+    </div>
+   <div class="display">
+      <table>
+          <thead>
+            <tr>
+              <th>Sno</th>
+              <th>JName</th>
+             
+            </tr>
+          </thead>
+      <tbody id="tabl">
+
+      </tbody>
+      </table>
+ </div>   
+ <script>
+  fetch('http://localhost:8000/api/v1/getJob')
+  .then(response => response.json())
+  .then(data => {
+    const tableBody = document.getElementById('tabl');
+
+    data.forEach(item => {
+      const row = document.createElement('tr');
+    //   console.log(item.JName);
+      row.innerHTML = `
+      <td>${item.JId}</td>
+      <td>${item.JName}</td>
+      <td>
+        <button onclick="updateApplicant(${item.JId})">Apply</button>
+        
+        </td>
+        `;
+        tableBody.appendChild(row);
+      
+    });
+  
+  })
+  .catch(error =>{
+    console.error('Error:',error);
+  });
+
+
+  function updateApplicant(JId){
+    location.href=`apply.html?id=${JId}`
+  }
+  </script>
+</body>
+</html>
