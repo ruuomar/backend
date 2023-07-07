@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <h1 class="header">Update your information</h1>
+    <div class="para">
+        <button onclick="location.href='home.html'">Home</button><br>
+        <button onclick="location.href='Applicantlist.html'">Data</button><br>
+        <button onclick="location.href='apply.html'">Application</button><br>
+        <button onclick="location.href='job.html'">Add job</button><br>
+    </div>
+    <div class="display">
+        <form id="certificateForm">
+            <fieldset>
+                <legend>Information:</legend>
+                Name: <input type="text" name="name" id="name"><br>
+                Email: <input type="text" name="email" id="email"><br>
+            </fieldset>
+
+            <fieldset>
+                <legend>Other Skill:</legend>
+                Skill: <input type="text" name="skill"><br>
+            </fieldset>
+
+            <!-- <fieldset>
+                <legend>Document:</legend>
+                Submit Document: <input type="file" id="document" name="document" accept=".pdf,.doc,.docx" required><br>
+            </fieldset> -->
+
+            <select id="JId" name="JId">
+                <option value="" disabled selected>Select Job</option>
+            </select>
+            <select id="Aid" name="Aid">
+                <option value="" disabled selected>Select Applicant</option>
+            </select>
+
+            <fieldset>
+                <legend>Add referee:</legend>
+                Enter: <input type="text" name="referee"><br>
+            </fieldset>
+            <button type="submit">Submit Form</button>
+        </form>
+    </div>
+
+    <script>
+        fetch('http://localhost:8000/api/v1/getJob')
+            .then(response => response.json())
+            .then(data => {
+                const job = document.getElementById('JId');
+                data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.JId;
+                    option.textContent = item.JName;
+                    job.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+        fetch('http://localhost:8000/api/v1/getApplicant')
+            .then(response => response.json())
+            .then(data => {
+                const applicant = document.getElementById('Aid');
+                data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.Aid;
+                    option.textContent = item.AFName;
+                    applicant.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+    //     const form = document.getElementById("certificateForm");
+    //     form.addEventListener('submit', function (event) {
+    //         event.preventDefault();
+    //         const formData = new FormData(form);
+    //         // const jsonData = {};
+    //         // for (const [key, value] of formData.entries()) {
+    //         //     jsonData[key] = value;
+    //         // }
+
+    // //         fetch('http://localhost:8000/api/v1/insertAppJob', {
+    // //             method: 'POST',
+    // //             body: JSON.stringify(Object.fromEntries(formData)),
+    // //             headers: {
+    // //                 'Content-Type': 'application/json'
+    // //             }
+    // //         })
+    // //         .then(response => {
+    // //             if (response.ok) {
+    // //                 console.log('Record added successfully.');
+    // //             } else {
+    // //                 console.log('Failed to add record.');
+    // //             }
+    // //         })
+    // //         .catch(error => {
+    // //             console.error('Error:', error);
+    // //         });
+    // //     });
+    
+        // Handle form submission
+        const form = document.getElementById('certificateForm');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent form submission
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('http://localhost:8000/api/v1/insertAppJob', {
+                    method: 'POST',
+                    body: formData, // Use the FormData object directly
+                });
+
+                if (response.ok) {
+                    console.log('Data inserted successfully!');
+                    // Optionally, perform any additional actions after successful registration
+                } else {
+                    console.error('Error inserting data');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+     </script>
+</body>
+</html> 

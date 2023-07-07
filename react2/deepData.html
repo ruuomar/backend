@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="style.css"rel="stylesheet"type="text/css">
+</head>
+<body>
+  <h1 class="header">Data of Applicant</h1>
+    <div class="para">
+      Menu
+        <button onclick="location.href='home.html'">Home</button><br>
+        <button onclick="location.href='Applicantlist.html'">Data</button><br>
+        <button onclick="location.href='apply.html'">Application</button><br>
+        <button onclick="location.href='job.html'">Add job</button><br>
+        <button onclick="location.href='job.html'">Application</button><br>
+    </div>
+   <div class="display">
+      <table>
+          <thead>
+            <tr>
+              <th>Sno</th>
+              <th>fullName</th>
+              <th>email</th>
+              <th>skill</th>
+              <th>document</th>
+              <th>wadhamin</th>
+              <th>JName</th>
+              </th>
+            </tr>
+          </thead>
+      <tbody id="table"></tbody>
+      </table>
+ </div>    
+    <script>
+        fetch('http://localhost:8000/api/v1/getAppJob')
+  .then(response => response.json())
+  .then(data => {
+    // Process the data
+    processData(data);
+
+    console.log(data);
+  })
+  .catch(error => {
+    // Handle the error
+    console.error(error);
+  });
+  function processData(data) {
+  // Get a reference to the table body element
+  const tableBody = document.getElementById('table');
+
+  // Iterate over the data and generate table rows
+  data.forEach(applicant => {
+    const row = document.createElement('tr');
+
+    // Create table cells for each property
+    const snoCell = document.createElement('td');
+    snoCell.textContent = applicant.Sno;
+    row.appendChild(snoCell);
+
+    const afNameCell = document.createElement('td');
+    afNameCell.textContent = applicant.AFName;
+    row.appendChild(afNameCell);
+
+    const alNameCell = document.createElement('td');
+    alNameCell.textContent = applicant.ALName;
+    row.appendChild(alNameCell);
+
+    const addressCell = document.createElement('td');
+    addressCell.textContent = applicant.Address;
+    row.appendChild(addressCell);
+
+    const aMobilePhoneCell = document.createElement('td');
+    aMobilePhoneCell.textContent = applicant.AMobilePhone;
+    row.appendChild(aMobilePhoneCell);
+
+    const aEmailCell = document.createElement('td');
+    aEmailCell.textContent = applicant.AEmail;
+    row.appendChild(aEmailCell);
+
+    const aBirthDateCell = document.createElement('td');
+    aBirthDateCell.textContent = applicant.ABirth_date;
+    row.appendChild(aBirthDateCell);
+
+    const up = document.createElement('td')
+    const update = document.createElement('button')
+    update.innerHTML="Update"
+    row.appendChild(update);
+
+    update.addEventListener('click', () => {
+  // Define the behavior when the 'update' button is clicked
+      location.href="update.html"
+  console.log("Update button clicked");
+  // Add your code here to handle the update functionality
+});
+
+    const dele = document.createElement('td')
+    const delet = document.createElement('button')
+    delet.innerHTML = "Delete"
+    row.appendChild(delet)
+    // Append the row to the table body
+    tableBody.appendChild(row);
+  });
+}
+

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="style.css"rel="stylesheet"type="text/css">
+</head>
+<body>
+  <h1 class="header">Data of Applicant</h1>
+    <div class="para">
+      Menu
+        <button onclick="location.href='home.html'">Home</button><br>
+        <button onclick="location.href='Applicantlist.html'">Data</button><br>
+        <button onclick="location.href='apply.html'">Application</button><br>
+        <button onclick="location.href='job.html'">Add job</button><br>
+        <button onclick="location.href='job.html'">Application</button><br>
+    </div>
+   <div class="display">
+      <table>
+          <thead>
+            <tr>
+              <th>Sno</th>
+              <th>name</th>
+              <th>email</th>
+              <th>document</th>
+              <th>wadhamin</th>
+              <th>skill</th>
+              <th>JName</th>
+              <th>AFName</th>
+              </th>
+            </tr>
+          </thead>
+      <tbody id="table-body"></tbody>
+      </table>
+ </div>    
+ <script>
+  fetch('http://localhost:8000/api/v1/getAppJob')
+  .then(response => response.json())
+  .then(data => {
+    const tableBody = document.getElementById('table-body');
+
+    data.forEach(item => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+      <td>${item.id}</td>
+      <td>${item.name}</td>
+      <td>${item.email}</td>
+      <td>${item.document}</td>
+      <td>${item.wadhamin}</td>
+      <td>${item.skill}</td>
+      <td>${item.job.JName}</td>
+      <td>${item.applicant.AFName}</td>
+
+      <td>
+        <button onclick="updateApplicant(${item.id})">Update</button>
+        <button onclick="deleteApplicant(${item.id})">Delete</button>
+        </td>
+        `;
+        tableBody.appendChild(row);
+      
+    });
+  
+  })
+  .catch(error =>{
+    console.error('Error:',error);
+  });
+  function deleteAppJob(id){
+    fetch(`http://localhost:8000/api/v1/deleteAppJob/${id}/`,{
+      method: 'DELETE'
+    })
+    .then(response =>{
+      if(response.ok){
+        console.log('AppJob deleted');
+
+        const row = document.getElementById(`row-${id}`);
+        row.remove();
+      }else{
+        console.error('error deleting applicant')
+      }
+     
+    })
+    .catch(error =>{
+      console.log('Error:',error)
+    })
+  }
+
+  function updateAppJob(id){
+    location.href=`update1.html?id=${id}`
+  }
+  </script>
+</body>
+</html>

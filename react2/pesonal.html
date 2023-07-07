@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Registration Form</title>
+    <!-- <link href="style.css"rel="stylesheet"type="text/css"> -->
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f1f1f1;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      
+      .form-container {
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        width: 50%;
+      }
+      
+      h2 {
+        text-align: center;
+      }
+      
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      
+      button[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      button[type="submit"]:hover {
+        background-color: #45a049;
+      }
+      
+    </style>
+    
+   
+</head>
+  <body>
+    <!-- <h1 class="header">Update your information</h1>
+        <div class="para">
+            <button onclick="location.href='home.html'">Home</button><br>
+            <button onclick="location.href='reference.html'">Add reference</button>
+            <button onclick="location.href='skill.html'">other skill</button>
+            <button onclick="location.href='skill.html'">contact</button>
+            <button onclick="location.href='Applicantlist.html'">Data</button><br>
+            <button onclick="location.href='apply.html'">Application</button><br>
+        </div>-->
+        <div class="container">
+          
+        <div class="form-container">
+            <h2>Registration</h2>
+      <form id="form1" action="http://localhost:8000/api/v1/insertApplicant" method="POST">
+        <input type="text" placeholder="First Name" name="AFName" id="fn"><br>
+        <input type="text" placeholder="Last Name" name="ALName" id="ln"><br>
+        <input type="date" placeholder="Date of Birth" name="ABirth_date" id="db"><br>
+        <input type="email" name="AEmail" autocomplete="off" placeholder="Email" id="em"><br>
+        <input type="text" placeholder="Mobile Phone" name="AMobilePhone" id="bp"><br>
+        <input type="text" placeholder="Address" name="Address" id="Address">
+        <button type="submit">Register</button>
+      </form>
+    </div>
+
+   
+</body>
+<script>
+document.getElementById('form1').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent form submission
+
+  var formData = new FormData(this);
+
+  fetch('http://localhost:8000/api/v1/insertApplicant', {
+      method: 'POST',
+      body: JSON.stringify(Object.fromEntries(formData)),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    
+  .then(function(response) {
+    if (response.ok) {
+      console.log('Data added successfully!');
+    } else {
+      console.error('Error adding data to API');
+    }
+  })
+  .catch(function(error) {
+    console.error('Error:', error);
+  });
+});
+
+</script>
+</html> 

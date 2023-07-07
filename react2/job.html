@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add job</title>
+    <!-- <link href="style.css"rel="stylesheet"type="text/css"> -->
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: aqua;
+      }
+      
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      
+      .form-container {
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        width: 50%;
+      }
+      
+      h3{
+        text-align: center;
+      }
+      
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      
+      button[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      button[type="submit"]:hover {
+        background-color: aqua;
+      }
+      
+    </style>
+    
+   
+</head>
+  <body>
+    
+        <div class="container">
+          
+        <div class="form-container">
+            <h3>Add job</h3>
+      <form id="form1" action="http://localhost:8000/api/v1/insertApplicant" method="POST">
+        <input type="text" placeholder="Enter job" name="JName" id="n"><br>
+
+        <button type="submit">Add</button>
+      </form>
+    </div>
+
+   
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#form1').submit(function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Serialize the form data into a JSON object
+            var formData = {
+                JName: $('#n').val(),
+                
+            };
+          //  console.log("rr")
+            // Make an AJAX POST request to the Django API endpoint
+            $.ajax({
+                url: 'http://localhost:8000/api/v1/Job', // Change this URL to your Django API endpoint for inserting the applicant
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(data) {
+                    alert('Data Enter');
+                },
+                error: function( status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        });
+    });
+</script>
+</html>
