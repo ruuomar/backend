@@ -17,5 +17,5 @@ class AppsSerializer(serializers.ModelSerializer):
     applicant = ApplicantSerializer(source='Aid',read_only=True)
     class Meta:
         model = Apps
-        fields = ['id','JId','Aid','name','email','skill','wadhamin','document','job','applicant']
+        fields = ['id','JId','Aid','name','email','skill','wadhamin','job','applicant']
 

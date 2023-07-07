@@ -28,6 +28,6 @@ class Apps(models.Model):
        email=models.CharField(max_length=40)
        skill=models.CharField(max_length=40)
        wadhamin=models.CharField(max_length=50)
-       document=models.FileField(upload_to='certificates/')
+    #    document=models.FileField(upload_to='certificates/')
        class Meta:
               db_table='apps'
